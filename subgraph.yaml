@@ -1,0 +1,99 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: LPLaunch
+    network: sepolia
+    source:
+      address: "0xDb859ee3713a8619CDd58Fdf33B23A99F2c49F5A"
+      abi: LPLaunch
+      startBlock: 8094447
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Launch
+        - Participant
+        - FeeSnapshot
+      abis:
+        - name: LPLaunch
+          file: ./abis/LPLaunch.json
+      eventHandlers:
+        - event: CreateLaunch(uint256,address,uint256,uint256,uint256,uint24,int24)
+          handler: handleCreateLaunch
+        - event: Invest(uint256,address,uint256)
+          handler: handleInvest
+        - event: Divest(uint256,address,uint256)
+          handler: handleDivest
+        - event: LaunchDone(uint256,bytes32,uint256,address,address)
+          handler: handleLaunchDone
+        - event: ClaimFees(address,uint256,uint256,uint256,address)
+          handler: handleClaimFees
+        - event: RemoveLiquidity(address,uint256,uint256,uint256,uint256,uint256,address)
+          handler: handleRemoveLiquidity
+      file: ./src/lp-launch.ts
+  - kind: ethereum
+    name: LPLaunchState
+    network: sepolia
+    source:
+      address: "0x989BDd356e3d933a27111269eB37471A2420a3F1"
+      abi: LPLaunchState
+      startBlock: 8094456
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Launch
+        - TokenInfo
+      abis:
+        - name: LPLaunchState
+          file: ./abis/LPLaunchState.json
+      eventHandlers:
+        - event: AddTokenInfo(uint256,(string,string,string,string,string,string,string,string,string,string,string,string,string,string))
+          handler: handleAddTokenInfo
+      file: ./src/lp-launch-state.ts
+  - kind: ethereum
+    name: LiquidityManager
+    network: sepolia
+    source:
+      address: "0xE54eaF9E2BB9cF71eD5FF783C149dD0B1Ec86878"
+      abi: LiquidityManager
+      startBlock: 8094416
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - LiquidityPool
+      abis:
+        - name: LiquidityManager
+          file: ./abis/LiquidityManager.json
+      eventHandlers:
+        - event: AddLiquidity(bytes32,address,address,int128)
+          handler: handleAddLiquidity
+      file: ./src/liquidity-manager.ts
+  - kind: ethereum
+    name: PoolManager
+    network: sepolia
+    source:
+      address: "0xE03A1074c86CFeDd5C142C4F04F1a1536e203543"
+      abi: PoolManager
+      startBlock: 8094416
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - SwapRecord
+      abis:
+        - name: PoolManager
+          file: ./abis/PoolManager.json
+      eventHandlers:
+        - event: Swap(indexed bytes32,indexed address,int128,int128,uint160,uint128,int24,uint24)
+          handler: handleSwap
+      file: ./src/pool-manager.ts

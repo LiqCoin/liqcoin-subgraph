@@ -1,0 +1,118 @@
+type Launch @entity(immutable: false) {
+  id: String!
+  launchId: BigInt!
+  targetAmount: BigInt!
+  fundTotal: BigInt!
+  accountTotal: BigInt!
+  poolLockTime: BigInt!
+  devLpRatio: BigInt!
+  creator: Bytes!
+  poolFee: BigInt!
+  poolInitialTick: BigInt!
+  poolId: Bytes!
+  hooks: Bytes!
+  liquidityDelta: BigInt!
+  launchToken: Bytes!
+  createTime: BigInt!
+  launchDone: Boolean!
+  launchDoneTime: BigInt!
+  tokenInfo: TokenInfo @derivedFrom(field: "launch")
+  # participants: [Participant!]! @derivedFrom(field: "launch")
+  claimedToken0: BigInt!
+  claimedToken1: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  updateTime: BigInt!
+}
+
+type Participant @entity(immutable: false) {
+  id: String! # account + launchId
+  launch: Launch!
+  account: Bytes!
+  totalInvested: BigInt!
+  claimedToken0: BigInt!
+  claimedToken1: BigInt!
+  lastClaimTime: BigInt!
+  isWithdrawn: Boolean!
+  isRemoveLP: Boolean!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TokenInfo @entity(immutable: true) {
+  id: String!
+  launch: Launch!
+  name: String!
+  symbol: String!
+  description: String
+  image: String
+  twitter: String
+  telegram: String
+  discord: String
+  youtube: String
+  website: String
+  link: String
+  github: String
+  instagram: String
+  tiktok: String
+  linkedin: String
+}
+
+type User @entity(immutable: false) {
+  id: Bytes!
+  participationCount: BigInt!
+  totalParticipationAmount: BigInt!
+}
+
+type ClaimFeesRecord @entity(immutable: true) {
+  id: ID!
+  account: Bytes!
+  launchId: BigInt!
+  token0: BigInt!
+  token1: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RemoveLiquidityRecord @entity(immutable: true) {
+  id: ID!
+  account: Bytes!
+  lpToken0: BigInt!
+  lpToken1: BigInt!
+  feeToken0: BigInt!
+  feeToken1: BigInt!
+  launchId: BigInt!
+  launchToken: Bytes!
+  launch: Launch
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LiquidityPool @entity(immutable: false) {
+  id: Bytes! # poolId
+  token0: Bytes!
+  token1: Bytes!
+  liquidityDelta: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SwapRecord @entity(immutable: true) {
+  id: String! # transactionHash + logIndex
+  pool: LiquidityPool!
+  sender: Bytes!
+  amount0: BigInt!
+  amount1: BigInt!
+  sqrtPriceX96: BigInt!
+  liquidity: BigInt!
+  tick: BigInt!
+  fee: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
