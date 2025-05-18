@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: LPLaunch
-    network: sepolia
+    network: base-sepolia
     source:
-      address: "0xDb859ee3713a8619CDd58Fdf33B23A99F2c49F5A"
+      address: "0x31A3319d364b8Ab107759B9b349dC931779C7A2f"
       abi: LPLaunch
-      startBlock: 8094447
+      startBlock: 25405475
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -38,11 +38,11 @@ dataSources:
       file: ./src/lp-launch.ts
   - kind: ethereum
     name: LPLaunchState
-    network: sepolia
+    network: base-sepolia
     source:
-      address: "0x989BDd356e3d933a27111269eB37471A2420a3F1"
+      address: "0x206052814B776A078c4e9724c92a830c2eB33094"
       abi: LPLaunchState
-      startBlock: 8094456
+      startBlock: 25405506
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -59,11 +59,11 @@ dataSources:
       file: ./src/lp-launch-state.ts
   - kind: ethereum
     name: LiquidityManager
-    network: sepolia
+    network: base-sepolia
     source:
-      address: "0xE54eaF9E2BB9cF71eD5FF783C149dD0B1Ec86878"
+      address: "0x05a605b9b410248665f0e6B27651Bd9268E907c2"
       abi: LiquidityManager
-      startBlock: 8094416
+      startBlock: 25405530
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -79,11 +79,11 @@ dataSources:
       file: ./src/liquidity-manager.ts
   - kind: ethereum
     name: PoolManager
-    network: sepolia
+    network: base-sepolia
     source:
-      address: "0xE03A1074c86CFeDd5C142C4F04F1a1536e203543"
+      address: "0x05E73354cFDd6745C338b50BcFDfA3Aa6fA03408"
       abi: PoolManager
-      startBlock: 8094416
+      startBlock: 25380287
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -97,3 +97,45 @@ dataSources:
         - event: Swap(indexed bytes32,indexed address,int128,int128,uint160,uint128,int24,uint24)
           handler: handleSwap
       file: ./src/pool-manager.ts
+  - kind: ethereum
+    name: LPLaunchData
+    network: base-sepolia
+    source:
+      address: "0x9881E100006e439c9ad89882E820771589Cd25AA"
+      abi: LPLaunchData
+      startBlock: 25777801
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - User
+      abis:
+        - name: LPLaunchData
+          file: ./abis/LPLaunchData.json
+      eventHandlers:
+        - event: Register(address,string,address)
+          handler: handleRegister
+        - event: ClaimBonus(address,uint256)
+          handler: handleClaimBonus
+      file: ./src/lp-launch-data.ts
+  - kind: ethereum
+    name: LPFeeHook
+    network: base-sepolia
+    source:
+      address: "0xd024E76aBE3878F163148b9d23eb7788f25Ac0CC"
+      abi: LPFeeHook
+      startBlock: 25777745
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - User
+      abis:
+        - name: LPFeeHook
+          file: ./abis/LPFeeHook.json
+      eventHandlers:
+        - event: TradingVolume(address,uint256)
+          handler: handleTradingVolume
+      file: ./src/lp-fee-hook.ts

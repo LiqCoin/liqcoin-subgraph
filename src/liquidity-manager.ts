@@ -1,6 +1,5 @@
 import { AddLiquidity } from '../generated/LiquidityManager/LiquidityManager'
 import { LiquidityPool } from '../generated/schema'
-import { BigInt, Bytes } from '@graphprotocol/graph-ts'
 
 export function handleAddLiquidity(event: AddLiquidity): void {
   let poolId = event.params.poolId
