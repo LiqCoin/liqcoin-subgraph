@@ -1,17 +1,17 @@
 {
   "sepolia": {
     "LPLaunch": {
-      "address": "0x262B6A5c4A5e342956C0dDE6c42388eDb996241d",
+      "address": "0x31A3319d364b8Ab107759B9b349dC931779C7A2f",
       "startBlock": 8023818
     },
     "LPLaunchState": {
-      "address": "0xF85e742b797FA8E6c5919182DFEa159F612d9dC0"
+      "address": "0x206052814B776A078c4e9724c92a830c2eB33094"
     },
     "LiquidityManager": {
-      "address": "0x22BB168d7c67fA47FA2B46e2214a7b2F592E1e8a"
+      "address": "0x05a605b9b410248665f0e6B27651Bd9268E907c2"
     },
     "PoolManager": {
-      "address": "\\"
+      "address": "0x05E73354cFDd6745C338b50BcFDfA3Aa6fA03408"
     }
   }
 }

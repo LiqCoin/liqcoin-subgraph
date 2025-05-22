@@ -68,6 +68,7 @@ export function handleInvest(event: InvestEvent): void {
   participant.blockNumber = event.block.number;
   participant.blockTimestamp = event.block.timestamp;
   participant.transactionHash = event.transaction.hash;
+  participant.createTime = event.block.timestamp;
   participant.save();
 
   let userId = event.params.account;
@@ -76,6 +77,10 @@ export function handleInvest(event: InvestEvent): void {
     user = new User(userId);
     user.participationCount = BigInt.fromI32(0);
     user.totalParticipationAmount = BigInt.fromI32(0);
+    user.totalTradingVolume = BigInt.fromI32(0);
+    user.totalFee = BigInt.fromI32(0);
+    user.totalClaimedBonus = BigInt.fromI32(0);
+    user.registerTime = event.block.timestamp;
   }
   user.participationCount = user.participationCount.plus(BigInt.fromI32(1));
   user.totalParticipationAmount = user.totalParticipationAmount.plus(event.params.amount);
@@ -159,6 +164,7 @@ export function handleClaimFees(event: ClaimFeesEvent): void {
     participant.claimedToken0 = BigInt.fromI32(0);
     participant.claimedToken1 = BigInt.fromI32(0);
     participant.lastClaimTime = BigInt.fromI32(0);
+    participant.createTime = event.block.timestamp;
     participant.isWithdrawn = false;
     participant.isRemoveLP = false;
   }
@@ -216,6 +222,7 @@ export function handleRemoveLiquidity(event: RemoveLiquidityEvent): void {
     participant.claimedToken0 = BigInt.fromI32(0);
     participant.claimedToken1 = BigInt.fromI32(0);
     participant.lastClaimTime = BigInt.fromI32(0);
+    participant.createTime = event.block.timestamp;
     participant.isWithdrawn = false;
     participant.isRemoveLP = true;
   } else {

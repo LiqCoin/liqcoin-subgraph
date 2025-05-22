@@ -33,6 +33,7 @@ type Participant @entity(immutable: false) {
   totalInvested: BigInt!
   claimedToken0: BigInt!
   claimedToken1: BigInt!
+  createTime: BigInt!
   lastClaimTime: BigInt!
   isWithdrawn: Boolean!
   isRemoveLP: Boolean!
@@ -61,9 +62,18 @@ type TokenInfo @entity(immutable: true) {
 }
 
 type User @entity(immutable: false) {
-  id: Bytes!
+  id: Bytes! # User address
   participationCount: BigInt!
   totalParticipationAmount: BigInt!
+  code: String
+  refCode: String
+  refAddress: Bytes
+  refRefCode: String
+  refRefAddress: Bytes
+  totalTradingVolume: BigInt!
+  totalFee: BigInt!
+  totalClaimedBonus: BigInt!
+  registerTime: BigInt!
 }
 
 type ClaimFeesRecord @entity(immutable: true) {
@@ -102,16 +112,20 @@ type LiquidityPool @entity(immutable: false) {
   transactionHash: Bytes!
 }
 
-type SwapRecord @entity(immutable: true) {
-  id: String! # transactionHash + logIndex
-  pool: LiquidityPool!
-  sender: Bytes!
-  amount0: BigInt!
-  amount1: BigInt!
-  sqrtPriceX96: BigInt!
-  liquidity: BigInt!
-  tick: BigInt!
-  fee: BigInt!
+type RegisterRecord @entity(immutable: true) {
+  id: ID! # transactionHash + logIndex
+  account: Bytes! # User address
+  code: String! # User's referral code
+  refAddress: Bytes! # Referrer's referral code
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ClaimBonusRecord @entity(immutable: true) {
+  id: ID! # transactionHash + logIndex
+  account: Bytes! # User address
+  value: BigInt! # Bonus amount claimed
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
